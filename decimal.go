@@ -128,6 +128,14 @@ func (this Decimal) Float64() float64 {
 	return result
 }
 
+// FloatString returns a string representation of decimal form with precision digits of precision after the decimal point and the last digit rounded.
+func (this Decimal) FloatString(precision int) string {
+	x := new(big.Rat).SetInt(this.integer)
+	y := new(big.Rat).Inv(new(big.Rat).SetInt(new(big.Int).Exp(big.NewInt(int64(10)), big.NewInt(int64(this.scale)), nil)))
+	z := new(big.Rat).Mul(x, y)
+	return z.FloatString(precision)
+}
+
 // String returns the string of Decimal.
 func (this Decimal) String() string {
 	unscaledString := strings.TrimLeft(this.integer.String(), "-")
