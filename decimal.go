@@ -3,6 +3,9 @@
 package decimal
 
 import (
+	"bytes"
+	"errors"
+	"io"
 	"math/big"
 	"strconv"
 	"strings"
@@ -11,25 +14,55 @@ import (
 // New returns a new instance of Decimal.
 func New(number float64) *Decimal {
 	numberString := strconv.FormatFloat(number, 'f', -1, 64)
-	numberParts := strings.Split(numberString, ".")
-	var numberUnscaledString string
-	var numberScale int
-	if len(numberParts) == 1 {
-		numberUnscaledString = numberParts[0]
-	} else {
-		numberUnscaledString = numberParts[0] + strings.TrimRight(numberParts[1], "0")
-		numberScale = len(numberString) - strings.LastIndex(numberString, ".") - 1
+	decimal, _ := Parse(numberString)
+	return decimal
+}
+
+// Parse returns a new instance of Decimal by parse decimal string.
+func Parse(numberString string) (*Decimal, error) {
+	var unscaledBuffer bytes.Buffer
+	var scale int
+	reader := strings.NewReader(numberString)
+	index := 1
+	for {
+		ch, _, err := reader.ReadRune()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+
+			return nil, err
+		}
+
+		switch ch {
+		case '+', '-':
+			if index > 1 { // sign must be first character
+				return nil, errors.New("decimal: invalid number string")
+			}
+			unscaledBuffer.WriteRune(ch)
+		case '.':
+			if scale != 0 {
+				return nil, errors.New("decimal: invalid number string")
+			}
+			scale = len(numberString) - index
+		case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+			unscaledBuffer.WriteRune(ch)
+		default:
+			return nil, errors.New("decimal: invalid number string")
+		}
+
+		index++
 	}
 
-	bigNumber, ok := new(big.Int).SetString(numberUnscaledString, 10)
+	integer, ok := new(big.Int).SetString(unscaledBuffer.String(), 10)
 	if !ok {
-		return nil
+		return nil, errors.New("decimal: invalid number string")
 	}
 
 	return &Decimal{
-		integer: bigNumber,
-		scale:   numberScale,
-	}
+		integer: integer,
+		scale:   scale,
+	}, nil
 }
 
 // alignScale aligns the scale of two decimals.
