@@ -2,4 +2,4 @@
 
 ##Overview
 
-Decimal component providers decimal type which can handing fixed precision.
+Decimal component providers decimal type for multi-precision arithmetic.
