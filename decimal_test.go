@@ -3,7 +3,6 @@
 package decimal
 
 import (
-	//	"fmt"
 	"testing"
 )
 
@@ -56,5 +55,15 @@ func TestDecimalOPs(t *testing.T) {
 	}
 	if e1.Mul(e1).Mul(e2).Cmp(e3) != 0 {
 		t.Fatalf("Mul error")
+	}
+}
+
+func TestDecimalFloatString(t *testing.T) {
+	a1, err := Parse("-3.1415926")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if a1.FloatString(3) != "-3.142" {
+		t.Fatal("FloatString failed")
 	}
 }
