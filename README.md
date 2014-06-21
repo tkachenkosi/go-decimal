@@ -1,4 +1,4 @@
-#Golang Decimal Package 
+Golang Decimal Package 
 =======================
 
 Golang Decimal Package providers a decimal type for multi-precision arithmetic.
