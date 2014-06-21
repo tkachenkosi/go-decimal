@@ -18,4 +18,4 @@ Usage
 COPYRIGHT & LICENSE
 =====================
 
-Copyright 2014 Landjur. Code released under the Apache License, Version 2.0.
+Copyright 2014 Landjur, Inc. Code released under the Apache License, Version 2.0.
