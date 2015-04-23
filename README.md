@@ -1,21 +1,19 @@
-Golang Decimal Package 
-=======================
+#Go-Decimal
 
-Golang Decimal Package providers a decimal type for multi-precision arithmetic.
+The go-decimal package providers a Decimal type for multi-precision arithmetic.
 
-Usage
-=====
+##Usage
 
-* create a decimal by float64:
+* create a Decimal instance by float64 or int64:
 
 		dec := decimal.New(5.18)
+
+        dec := new(decimal.Decimal).SetFloat(5.18)
 	
-* create a decimal by string:
+        dec := new(decimal.Decimal).SetInt(5)
+
+* create a Decimal instance by string:
 	
 		dec, err := decimal.Parse("5.18181818181818181818181818181818181818")
-		
-		
-COPYRIGHT & LICENSE
-=====================
-
-Copyright 2014 Landjur, Inc. Code released under the Apache License, Version 2.0.
+        
+		dec, err := new(decimal.Decimal).SetString("5.18181818181818181818181818181818181818")
