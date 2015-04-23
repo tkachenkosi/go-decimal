@@ -32,7 +32,7 @@ func TestDecimalOPs(t *testing.T) {
 	c1 := New(100.1234567890)
 	c2 := New(100.9876543210)
 	c3 := New(201.1111111100)
-	if c1.Add(c2).Cmp(c3) != 0 {
+	if c1.Add(c2).Add(new(Decimal)).Cmp(c3) != 0 {
 		t.Fatal("Add error")
 	}
 
@@ -53,6 +53,13 @@ func TestDecimalOPs(t *testing.T) {
 	}
 	if e1.Mul(e1).Mul(e2).Cmp(e3) != 0 {
 		t.Fatalf("Mul error")
+	}
+
+	// Div
+	f1 := New(10.25)
+	f2 := New(2.55)
+	if f1.Div(f2).FloatString(3) != "4.020" {
+		t.Fatalf("Div error")
 	}
 }
 
