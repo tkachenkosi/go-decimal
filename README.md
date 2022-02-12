@@ -4,6 +4,10 @@ The go-decimal package providers a Decimal type for multi-precision arithmetic.
 
 ##Usage
 
+New projeckt 
+https://github.com/shopspring/decimal
+
+
 * create a Decimal instance by float64 or int64:
 
 		dec := decimal.New(5.18)
